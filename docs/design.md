@@ -20,7 +20,7 @@ During Demo Day, the user asks the assistant: “What is the weather in Hebron, 
 | compare_weather | Compares current weather between two cities | city1: string, city2: string | { city1: {...}, city2: {...} } | P1 |
 | get_weather_alerts | Returns active weather warnings or alerts for a specified location when alert information is available | location: string | { alerts: [{ type, severity, description }] } | P1 |
 
-## 7. Out of Scope
+## Out of Scope
 The first version of the Weather Briefing MCP Server will not include:
 - User authentication, registration, or account management.
 - Paid weather APIs or premium weather services.
