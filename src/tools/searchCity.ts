@@ -1,4 +1,4 @@
-import { searchCityInputSchema } from "../schemas/searchCity";
+import { searchCityInputSchema } from "../schemas/searchCity.js";
 
 export const searchCityTool = {
   name: "search_city",
