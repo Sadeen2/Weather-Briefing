@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/server";
 import { serveStdio } from "@modelcontextprotocol/server/stdio";
 
 import { registerGetWeatherTool } from "./tools/get-weather.js";
-import { registerSearchCityTool } from "./tools/searchCity.js";
+import { registerSearchCityTool } from "./tools/search-city.js";
 import { registerCreateWeatherBriefingTool } from "./tools/create-weather-briefing.js";
 
 function createServer(): McpServer {

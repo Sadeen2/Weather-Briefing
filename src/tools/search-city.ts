@@ -1,5 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/server";
-import { searchCityInputSchema } from "../schemas/searchCity.js";
+import { searchCityInputSchema } from "../schemas/search-city.js";
 
 export function registerSearchCityTool(server: McpServer) {
   server.registerTool(
@@ -7,7 +7,7 @@ export function registerSearchCityTool(server: McpServer) {
     {
       title: "Search City",
       description: "Resolves a city name to geographic coordinates",
-      inputSchema: searchCityInputSchema.shape,
+      inputSchema: searchCityInputSchema,
     },
     async ({ city }) => {
       // TODO: implement real geocoding call (stub for now)
