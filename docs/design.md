@@ -5,7 +5,9 @@ A lot of users require checking weather conditions several times during the day 
 
 
 ## User & Demo Story
-During Demo Day, the user asks the assistant: “What is the weather in Hebron, and should I carry an umbrella tomorrow?” First, the assistant executes the search_city function to figure out where Hebron is, by determining its geographical coordinates. Next, the assistant uses get_weather to obtain current weather data and get_forecast to see what tomorrow’s forecast is.
+
+During Demo Day, a user asks, “What is the weather like in Hebron, and should I take an umbrella tomorrow?” The assistant first uses `search_city` to find the correct location and its coordinates. It then calls `get_weather` to check the current conditions. Finally, `create_weather_briefing` turns the weather data into a short, easy-to-understand summary and gives the user a practical recommendation about whether to carry an umbrella.
+
 
 ## Tool Inventory
 
