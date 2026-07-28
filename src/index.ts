@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { serveStdio } from "@modelcontextprotocol/server/stdio";
 import { registerGetWeatherTool } from "./tools/get-weather.js";
+import { registerSearchCityTool } from "./tools/searchCity.js";
 
 function createServer(): McpServer {
   const server = new McpServer({
@@ -9,6 +10,7 @@ function createServer(): McpServer {
   });
 
   registerGetWeatherTool(server);
+  registerSearchCityTool(server);
 
   return server;
 }
