@@ -7,5 +7,9 @@ export const searchCityInputSchema = z.object({
     .string()
     .min(1)
     .max(100)
+    .regex(
+    /^[\p{L}\p{M}]+(?:[ '\-’][\p{L}\p{M}]+)*$/u,
+    "City name must contain letters only",
+  )
     .describe("The name of the city to search for"),
 });
