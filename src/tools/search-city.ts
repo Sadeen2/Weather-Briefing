@@ -10,12 +10,12 @@ export function registerSearchCityTool(server: McpServer) {
       inputSchema: searchCityInputSchema,
     },
     async ({ city }) => {
-      // TODO: implement real geocoding call (stub for now)
+      // Week 2: stub only — Week 3 replaces this with real data
       return {
         content: [
           {
             type: "text",
-            text: `Stub result: would search for city "${city}"`,
+            text: JSON.stringify({ ok: true, stub: true, tool: "search_city" }, null, 2),
           },
         ],
       };
