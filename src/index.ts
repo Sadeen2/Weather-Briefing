@@ -8,6 +8,7 @@ import { registerSearchCityTool } from "./tools/search-city.js";
 import { registerCreateWeatherBriefingTool } from "./tools/create-weather-briefing.js";
 import { registerSaveFavoriteCityTool } from "./tools/save-favorite-city.js";
 import { registerListFavoriteCitiesTool } from "./tools/list-favorite-cities.js";
+import { registerGetWeatherAlertsTool } from "./tools/get-weather-alerts.js";
 
 function createServer(): McpServer {
   const server = new McpServer({
@@ -22,6 +23,7 @@ function createServer(): McpServer {
   registerCreateWeatherBriefingTool(server);
   registerSaveFavoriteCityTool(server);
   registerListFavoriteCitiesTool(server);
+  registerGetWeatherAlertsTool(server);
 
   return server;
 }
