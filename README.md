@@ -63,9 +63,10 @@ Open the printed URL in your browser, connect, and use the Tools tab to list and
 
 ## Project Structure
 
-    src/
+```text
+src/
 ├── index.ts                         # Server factory + stdio entry point
-├── schemas/                         # Zod input schemas (one file per tool)
+├── schemas/                         # Zod input schemas
 │   ├── search-city.ts
 │   ├── get-weather.ts
 │   ├── create-weather-briefing.ts
@@ -73,7 +74,7 @@ Open the printed URL in your browser, connect, and use the Tools tab to list and
 │   ├── compare-weather.ts
 │   ├── save-favorite-city.ts
 │   └── list-favorite-cities.ts
-└── tools/                           # Tool handlers (one file per tool)
+└── tools/                           # Tool handlers
     ├── search-city.ts
     ├── get-weather.ts
     ├── create-weather-briefing.ts
@@ -94,3 +95,4 @@ examples/
 docs/
 ├── project-choice.md
 └── design.md
+```
