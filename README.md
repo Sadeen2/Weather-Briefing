@@ -8,6 +8,10 @@ An MCP (Model Context Protocol) server that gives an AI assistant direct access 
 - Duaa Naji
 - Rawand Bawatneh
 
+## Academy
+
+This project was developed as part of the [NextFlows Academy MCP Cohort] https://nextflows.ai/ .
+
 ## Setup
 
 Install dependencies:
