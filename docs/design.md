@@ -47,3 +47,15 @@ The external weather API may be unavailable or slow during Demo Day.
 A location name may be misspelled, unsupported, or shared by multiple cities.
 
 *Mitigation:* Validate non-empty input, always return the resolved city/country, and return a clear LOCATION_NOT_FOUND error when no match is found.
+
+## Notes from reading Filesystem MCP Server
+
+Studied the official `Filesystem` reference server (`modelcontextprotocol/servers`, `src/filesystem/README.md`) to compare naming and description conventions with our own tools.
+
+- **Naming pattern:** tool names use snake_case, verb-first, action-object order (`read_text_file`, `write_file`, `move_file`, `list_allowed_directories`) — consistent with our own `search_city`, `get_weather`, `create_weather_briefing` naming.
+- **Description length:** each tool gets one short, imperative sentence (e.g. "Move or rename files and directories"), followed by a bulleted list of inputs and behavior notes below it — not one long paragraph.
+- **Input docs:** every input is listed individually with its type in parentheses (e.g. `path (string)`, `head (number, optional)`), and optional fields are explicitly labeled "optional" rather than implied.
+- **Errors phrased as constraints, not messages:** edge cases are stated directly under the relevant tool as plain constraints (e.g. "Cannot specify both `head` and `tail` simultaneously", "Fails if destination exists") instead of listing literal error strings — this tells the model exactly when a call will be rejected without over-specifying wording.
+- **Safety hints via annotations:** each tool also declares `readOnlyHint` / `destructiveHint` / `idempotentHint` in a summary table, so a client can distinguish safe read-only calls from destructive ones (e.g. `write_file`, `edit_file`) at a glance. We don't have destructive tools yet, but this is worth adopting later if we add a `save_favorite_city`-style write with overwrite behavior.
+
+No changes made to our PO descriptions this round — our current wording (short sentence + `.describe()` per field) already matches this pattern.
