@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "type": "cached-demo-fixture",
+    "tool": "get_forecast",
+    "description": "Offline fallback data for get_forecast on Demo Day"
+  },
+  "locations": [
+    {
+      "name": "Hebron",
+      "country": "Palestine",
+      "latitude": 31.5326,
+      "longitude": 35.0998,
+      "response": {
+        "forecast": [
+          {
+            "date": "2026-08-01",
+            "minTemp": 21.1,
+            "maxTemp": 30.3,
+            "conditions": "Partly cloudy"
+          },
+          {
+            "date": "2026-08-02",
+            "minTemp": 20.4,
+            "maxTemp": 31,
+            "conditions": "Sunny"
+          },
+          {
+            "date": "2026-08-03",
+            "minTemp": 22,
+            "maxTemp": 29.8,
+            "conditions": "Light rain"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ramallah",
+      "country": "Palestine",
+      "latitude": 31.9038,
+      "longitude": 35.2034,
+      "response": {
+        "forecast": [
+          {
+            "date": "2026-08-01",
+            "minTemp": 20.8,
+            "maxTemp": 29.7,
+            "conditions": "Sunny"
+          },
+          {
+            "date": "2026-08-02",
+            "minTemp": 20.1,
+            "maxTemp": 30.2,
+            "conditions": "Partly cloudy"
+          },
+          {
+            "date": "2026-08-03",
+            "minTemp": 21.4,
+            "maxTemp": 28.9,
+            "conditions": "Light rain"
+          }
+        ]
+      }
+    }
+  ]
+}

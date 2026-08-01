@@ -75,19 +75,17 @@ Fixture fallback (./data/weather-alerts.json): local sample of 2-3 pre-built ale
 - Both tools use the shared fetchJson helper (src/lib/http.ts) with an 8s timeout.
 - Demo Day rule: if Wi-Fi is down, both tools fall back to their local fixture file in ./data/.
 
-## Week 3 Assigned Tools
+## Assigned Weather Tool Data Plan
 
-Demo Day must still work when Wi-Fi or the public API is unavailable, so these tools keep a local cached fallback in ./data/weather-fixtures.json and resolve cities from ./data/cities.json before any live lookup.
+Demo Day must still work when Wi-Fi or the public API is unavailable, so these three tools use cached fixture files in ./data/ as offline fallbacks.
 
 | tool | source | fixture path | auth | rate limits | failure modes | example response |
 |---|---|---|---|---|---|---|
-| get_weather | Open-Meteo current weather API | ./data/weather-fixtures.json | none | Free public API under public fair-use limits; keep request volume low. | invalid latitude or longitude, HTTP 5xx response, request timeout, unavailable network, malformed API response, missing city or coordinate match in the fixture, empty or malformed fixture JSON | {"temperature":28.4,"conditions":"Partly cloudy","humidity":41,"windSpeed":12.6} |
-| get_forecast | Open-Meteo forecast API | ./data/weather-fixtures.json | none | Free public API under public fair-use limits; keep request volume low. | invalid latitude or longitude, invalid or unsupported days value, HTTP 5xx response, request timeout, unavailable network, malformed API response, missing forecast data in the fixture, empty or malformed fixture JSON | {"forecast":[{"date":"2026-08-01","minTemp":21.1,"maxTemp":30.3,"conditions":"Partly cloudy"}]} |
-| compare_weather | Local city resolution from ./data/cities.json, then Open-Meteo current weather API | ./data/weather-fixtures.json | none | This tool may require two weather lookups, so request volume must remain low under the public API fair-use limits. | empty city name, city not found, ambiguous city, one city succeeds and the other fails, HTTP 5xx response, request timeout, unavailable network, malformed API response, missing city in the local fixture, empty or malformed fixture JSON | {"city1":{"temperature":28.4,"conditions":"Partly cloudy","humidity":41,"windSpeed":12.6},"city2":{"temperature":27.8,"conditions":"Sunny","humidity":38,"windSpeed":11.2}} |
+| get_weather | Open-Meteo current weather API | ./data/get-weather-fixture.json | none | Free public API under public fair-use limits. Keep request volume low. | invalid latitude or longitude; HTTP 5xx response; request timeout; unavailable network; malformed API response; location not found in the fixture; empty fixture file; malformed fixture JSON | {"temperature":28.4,"conditions":"Partly cloudy","humidity":41,"windSpeed":12.6} |
+| get_forecast | Open-Meteo forecast API | ./data/get-forecast-fixture.json | none | Free public API under public fair-use limits. Keep request volume low. | invalid latitude or longitude; invalid or unsupported days value; HTTP 5xx response; request timeout; unavailable network; malformed API response; forecast not found in the fixture; empty fixture file; malformed fixture JSON | {"forecast":[{"date":"2026-08-01","minTemp":21.1,"maxTemp":30.3,"conditions":"Partly cloudy"},{"date":"2026-08-02","minTemp":20.4,"maxTemp":31,"conditions":"Sunny"},{"date":"2026-08-03","minTemp":22,"maxTemp":29.8,"conditions":"Light rain"}]} |
+| compare_weather | Use data/cities.json to resolve the two city names, then use Open-Meteo current weather data for both cities | ./data/compare-weather-fixture.json | none | The tool may require two weather lookups. Keep request volume low under the free public API fair-use limits. | empty city name; city not found; ambiguous city; one city lookup succeeds while the other fails; HTTP 5xx response; request timeout; unavailable network; malformed API response; comparison not found in the fixture; empty fixture file; malformed fixture JSON | {"city1":{"temperature":28.4,"conditions":"Partly cloudy","humidity":41,"windSpeed":12.6},"city2":{"temperature":27.8,"conditions":"Sunny","humidity":38,"windSpeed":11.2}} |
 
 ### get_weather example response
-
-Cached demo response for Hebron.
 
 ```json
 {
@@ -99,8 +97,6 @@ Cached demo response for Hebron.
 ```
 
 ### get_forecast example response
-
-Cached demo response for Hebron with three forecast days.
 
 ```json
 {
@@ -114,12 +110,12 @@ Cached demo response for Hebron with three forecast days.
     {
       "date": "2026-08-02",
       "minTemp": 20.4,
-      "maxTemp": 31.0,
+      "maxTemp": 31,
       "conditions": "Sunny"
     },
     {
       "date": "2026-08-03",
-      "minTemp": 22.0,
+      "minTemp": 22,
       "maxTemp": 29.8,
       "conditions": "Light rain"
     }
@@ -128,8 +124,6 @@ Cached demo response for Hebron with three forecast days.
 ```
 
 ### compare_weather example response
-
-Cached demo response comparing Hebron and Ramallah.
 
 ```json
 {

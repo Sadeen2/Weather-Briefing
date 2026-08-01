@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "type": "cached-demo-fixture",
+    "tool": "compare_weather",
+    "description": "Offline fallback data for compare_weather on Demo Day"
+  },
+  "comparisons": [
+    {
+      "city1": {
+        "name": "Hebron",
+        "country": "Palestine",
+        "latitude": 31.5326,
+        "longitude": 35.0998
+      },
+      "city2": {
+        "name": "Ramallah",
+        "country": "Palestine",
+        "latitude": 31.9038,
+        "longitude": 35.2034
+      },
+      "response": {
+        "city1": {
+          "temperature": 28.4,
+          "conditions": "Partly cloudy",
+          "humidity": 41,
+          "windSpeed": 12.6
+        },
+        "city2": {
+          "temperature": 27.8,
+          "conditions": "Sunny",
+          "humidity": 38,
+          "windSpeed": 11.2
+        }
+      }
+    }
+  ]
+}
