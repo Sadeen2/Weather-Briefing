@@ -13,3 +13,18 @@ export const searchCityInputSchema = z.object({
   )
     .describe("The name of the city to search for"),
 });
+
+// Validates the shape of Open-Meteo's geocoding response before we trust it
+export const openMeteoGeocodingResponseSchema = z.object({
+  results: z
+    .array(
+      z.object({
+        name: z.string(),
+        latitude: z.number(),
+        longitude: z.number(),
+        country: z.string().optional(),
+        timezone: z.string().optional(),
+      }),
+    )
+    .optional(),
+});
