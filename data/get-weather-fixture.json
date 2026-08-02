@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "type": "cached-demo-fixture",
+    "tool": "get_weather",
+    "description": "Offline fallback data for get_weather on Demo Day"
+  },
+  "locations": [
+    {
+      "name": "Hebron",
+      "country": "Palestine",
+      "latitude": 31.5326,
+      "longitude": 35.0998,
+      "response": {
+        "temperature": 28.4,
+        "conditions": "Partly cloudy",
+        "humidity": 41,
+        "windSpeed": 12.6
+      }
+    },
+    {
+      "name": "Ramallah",
+      "country": "Palestine",
+      "latitude": 31.9038,
+      "longitude": 35.2034,
+      "response": {
+        "temperature": 27.8,
+        "conditions": "Sunny",
+        "humidity": 38,
+        "windSpeed": 11.2
+      }
+    }
+  ]
+}
