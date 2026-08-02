@@ -1,0 +1,23 @@
+{
+  "location": "Ramallah",
+  "current": {
+    "temperature": 18,
+    "conditions": "Partly cloudy",
+    "humidity": 64,
+    "windSpeed": 12
+  },
+  "forecast": {
+    "date": "2026-08-03",
+    "minTemp": 15,
+    "maxTemp": 23,
+    "conditions": "Light rain",
+    "precipitationProbability": 60
+  },
+  "briefing": "Ramallah is currently partly cloudy. Tomorrow may have light rain, so carrying an umbrella is recommended.",
+  "highlights": [
+    "Current temperature: 18°C",
+    "Tomorrow's high: 23°C",
+    "Rain probability: 60%",
+    "Umbrella recommended"
+  ]
+}
