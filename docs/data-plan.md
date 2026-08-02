@@ -72,9 +72,13 @@ Fixture fallback (./data/weather-alerts.json): local sample of 2-3 pre-built ale
 
 ## create_weather_briefing
 
-Source: Open-Meteo current and forecast weather data.
+Source: The tool first resolves the requested location, then uses Open-Meteo current and forecast weather data.
 
-The tool combines current conditions and forecast information into a short, readable briefing with practical recommendations.
+The tool combines the returned current conditions and forecast information into a short, readable briefing with practical recommendations.
+
+Example request:
+
+GET https://api.open-meteo.com/v1/forecast?latitude=31.9038&longitude=35.2034&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=2&timezone=auto
 
 Example response (happy path):
 
@@ -93,6 +97,7 @@ Example response (happy path):
 Fixture fallback (`./data/create-weather-briefing-fixture.json`): cached current weather, forecast data, and a prepared briefing used when the API is unavailable or the request times out.
 
 Failure modes:
+
 - empty or invalid location
 - city not found
 - HTTP 5xx response
@@ -102,12 +107,12 @@ Failure modes:
 - malformed API response
 - empty fixture file
 - malformed fixture JSON
-
+  
 ## Notes
 
-- No API keys required for either tool (Open-Meteo free tier).
-- Both tools use the shared fetchJson helper (src/lib/http.ts) with an 8s timeout.
-- Demo Day rule: if Wi-Fi is down, both tools fall back to their local fixture file in ./data/.
+- No API keys are required for the Open-Meteo data sources used by these tools.
+- API-based tools use the shared `fetchJson` helper in `src/lib/http.ts` with an 8-second timeout.
+- Demo Day rule: if Wi-Fi or the public API is unavailable, each tool falls back to its documented local fixture file in `./data/`.
 
 ## Assigned Weather Tool Data Plan
 
