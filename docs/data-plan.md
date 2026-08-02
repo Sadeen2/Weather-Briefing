@@ -8,6 +8,7 @@ This document maps each P0/P1 tool to its data source, fixture fallback, and kno
 | -------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------- | ---- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `search_city`        | Open-Meteo Geocoding API (`https://geocoding-api.open-meteo.com/v1/search`)                          | `./data/cities.json`         | none | ~10,000 req/day (free tier, no key) | empty results (city not found), timeout, HTTP 5xx, malformed query (empty string)                           |
 | `get_weather_alerts` | Derived from Open-Meteo Forecast API `weather_code` field (`https://api.open-meteo.com/v1/forecast`) | `./data/weather-alerts.json` | none | ~10,000 req/day (free tier, no key) | timeout, HTTP 5xx, city not found (invalid coordinates), no active alert conditions (empty result is valid) |
+| `create_weather_briefing` | Uses Open-Meteo current and forecast weather data to generate a short practical summary and recommendation | `./data/create-weather-briefing-fixture.json` | none | Free public API under fair-use limits; avoid unnecessary repeated requests | empty location, city not found, timeout, HTTP 5xx, unavailable network, missing weather fields, malformed API response, empty fixture file, malformed fixture JSON |
 
 ## search_city
 
@@ -68,6 +69,39 @@ Example response (no alerts — also a valid happy path):
 }
 
 Fixture fallback (./data/weather-alerts.json): local sample of 2-3 pre-built alerts for common cities, used if the API call fails or times out.
+
+## create_weather_briefing
+
+Source: Open-Meteo current and forecast weather data.
+
+The tool combines current conditions and forecast information into a short, readable briefing with practical recommendations.
+
+Example response (happy path):
+
+```json
+{
+  "briefing": "Ramallah is currently partly cloudy. Tomorrow may have light rain, so carrying an umbrella is recommended.",
+  "highlights": [
+    "Current temperature: 18°C",
+    "Tomorrow's high: 23°C",
+    "Rain probability: 60%",
+    "Umbrella recommended"
+  ]
+}
+```
+
+Fixture fallback (`./data/create-weather-briefing-fixture.json`): cached current weather, forecast data, and a prepared briefing used when the API is unavailable or the request times out.
+
+Failure modes:
+- empty or invalid location
+- city not found
+- HTTP 5xx response
+- request timeout
+- unavailable network
+- missing current or forecast fields
+- malformed API response
+- empty fixture file
+- malformed fixture JSON
 
 ## Notes
 
