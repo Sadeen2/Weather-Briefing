@@ -1,29 +1,35 @@
 import { McpServer } from "@modelcontextprotocol/server";
+
 import { listFavoriteCitiesInputSchema } from "../schemas/list-favorite-cities.js";
 
-export function registerListFavoriteCitiesTool(server: McpServer): void {
+export function registerListFavoriteCitiesTool(
+  server: McpServer,
+): void {
   server.registerTool(
     "list_favorite_cities",
     {
       description:
-        "Returns the list of cities that were previously saved as favorites.",
+        "Lists the user's saved favorite cities. This P1 tool is not implemented yet.",
       inputSchema: listFavoriteCitiesInputSchema,
     },
-    async () => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              ok: false,
-              tool: "list_favorite_cities",
-              status: "not implemented yet",
-            },
-            null,
-            2,
-          ),
-        },
-      ],
-    }),
+    async () => {
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "not_implemented",
+                tool: "list_favorite_cities",
+                message:
+                  "This P1 tool is not implemented yet. No favorite cities were loaded.",
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    },
   );
 }
