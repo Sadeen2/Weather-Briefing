@@ -11,6 +11,7 @@ import {
   weatherFixtureSchema,
   weatherResultSchema,
 } from "../src/schemas/weather-data.js";
+import { searchCity } from "../src/lib/search-city.js";
 import {
   compareWeatherData,
   getForecastData,
@@ -33,13 +34,24 @@ async function main() {
   assert.ok(compareWeatherFixtureSchema.safeParse(compareFixture).success);
   console.log("3/9 compare fixture ok");
 
-  const weather = await getWeatherData(31.5326, 35.0998);
+  const hebron = await searchCity("Hebron");
+  assert.ok(hebron.results.length > 0);
+
+  const weatherLocation = hebron.results[0];
+  const weather = await getWeatherData(
+    weatherLocation.latitude,
+    weatherLocation.longitude,
+  );
   assert.ok(
     weatherResultSchema.safeParse(weather).success || "message" in weather,
   );
   console.log("4/9 get_weather ok");
 
-  const forecast = await getForecastData(31.5326, 35.0998, 2);
+  const forecast = await getForecastData(
+    weatherLocation.latitude,
+    weatherLocation.longitude,
+    2,
+  );
   assert.ok(forecastResultSchema.safeParse(forecast).success);
   assert.ok(forecast.forecast.length <= 2);
   console.log("5/9 get_forecast limit ok");

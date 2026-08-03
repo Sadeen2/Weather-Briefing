@@ -1,22 +1,17 @@
 import { getWeatherInputSchema } from "../src/schemas/get-weather.js";
 
 const acceptedCases = [
-  { latitude: 31.5326, longitude: 35.0998 },
-  { latitude: -90, longitude: -180 },
-  { latitude: 90, longitude: 180 },
+  { city: "Hebron" },
+  { city: "  Ramallah  " },
 ];
 
 const rejectedCases = [
-  { latitude: 100, longitude: 35 },
-  { latitude: -91, longitude: 35 },
-  { latitude: 31, longitude: 200 },
-  { latitude: 31, longitude: -181 },
-  { longitude: 35 },
-  { latitude: 31 },
-  { latitude: "31", longitude: 35 },
-  { latitude: 31, longitude: "35" },
-  { latitude: Number.NaN, longitude: 35 },
-  { latitude: Number.POSITIVE_INFINITY, longitude: 35 },
+  { city: "" },
+  { city: "   " },
+  { city: 31 },
+  { city: null },
+  { city: undefined },
+  { latitude: 31.5326, longitude: 35.0998 },
 ];
 
 for (const testCase of acceptedCases) {
