@@ -9,12 +9,20 @@ import { registerCreateWeatherBriefingTool } from "./tools/create-weather-briefi
 import { registerSaveFavoriteCityTool } from "./tools/save-favorite-city.js";
 import { registerListFavoriteCitiesTool } from "./tools/list-favorite-cities.js";
 import { registerGetWeatherAlertsTool } from "./tools/get-weather-alerts.js";
+import { registerResources } from "./resources/register-resources.js";
 
 function createServer(): McpServer {
-  const server = new McpServer({
-    name: "weather-briefing",
-    version: "0.2.0",
-  });
+  const server = new McpServer(
+    {
+      name: "weather-briefing",
+      version: "0.2.0",
+    },
+    {
+      capabilities: {
+        resources: {},
+      },
+    },
+  );
 
   registerGetWeatherTool(server);
   registerGetForecastTool(server);
@@ -24,6 +32,7 @@ function createServer(): McpServer {
   registerSaveFavoriteCityTool(server);
   registerListFavoriteCitiesTool(server);
   registerGetWeatherAlertsTool(server);
+  registerResources(server);
 
   return server;
 }
