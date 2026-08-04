@@ -1,32 +1,36 @@
 import { McpServer } from "@modelcontextprotocol/server";
+
 import { saveFavoriteCityInputSchema } from "../schemas/save-favorite-city.js";
 
-export function registerSaveFavoriteCityTool(server: McpServer): void {
+export function registerSaveFavoriteCityTool(
+  server: McpServer,
+): void {
   server.registerTool(
     "save_favorite_city",
     {
       description:
-        "Saves a city locally as a favorite for quick access later.",
+        "Saves a city to the user's favorites. This P1 tool is not implemented yet.",
       inputSchema: saveFavoriteCityInputSchema,
     },
-    async ({ city }) => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              ok: false,
-              tool: "save_favorite_city",
-              status: "not implemented yet",
-              input: {
+    async ({ city }) => {
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "not_implemented",
+                tool: "save_favorite_city",
                 city,
+                message:
+                  "This P1 tool is not implemented yet. The city was not saved.",
               },
-            },
-            null,
-            2,
-          ),
-        },
-      ],
-    }),
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    },
   );
 }
