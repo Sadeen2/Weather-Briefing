@@ -23,14 +23,20 @@ export async function searchCity(city: string) {
       error instanceof Error ? error.message : error,
     );
 
-    const fallbackResults = fixtureCities.cities.filter((c) =>
+    const MAX_FALLBACK_RESULTS = 5;
+
+    const allFallbackMatches = fixtureCities.cities.filter((c) =>
       c.name.toLowerCase().includes(city.toLowerCase()),
     );
+    const fallbackResults = allFallbackMatches.slice(0, MAX_FALLBACK_RESULTS);
+    const truncated = allFallbackMatches.length > MAX_FALLBACK_RESULTS;
 
     return {
       results: fallbackResults,
       source: "fixture" as const,
-      note: "Live API unavailable, used local fixture.",
+      note: truncated
+        ? `Live API unavailable, used local fixture. Showing ${MAX_FALLBACK_RESULTS} of ${allFallbackMatches.length} matches.`
+        : "Live API unavailable, used local fixture.",
     };
   }
 }
