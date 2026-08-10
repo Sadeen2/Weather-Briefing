@@ -15,23 +15,24 @@
 
 ## Top 5 risks
 
-1. **Unbounded fixture fallback in `search_city`** — when the live Open-Meteo call fails, the tool falls back to filtering a local fixture list with no result cap. **Confirmed via live testing**: querying `city: "a"` triggered the fallback and returned an unfiltered list of cities (Ramallah, Nablus, Gaza, Amman, Cairo...) — a runaway response risk.
-2. **Weaker input validation on `get_weather_alerts`** — `location` is validated only with `min(1).max(100)` in Zod, without the character-restricting regex used in `search_city`. Impact is limited because the raw string is never sent directly in a URL — it's matched via strict equality against a static city list. **Confirmed via live testing**: `location: "Hebronn"` (typo) failed the exact-match lookup and silently returned an empty alerts array, with no indication to the caller that the name didn't match.
-3. **Raw input logged verbatim** — both tools log the caller-supplied string directly via `console.error` on failure (e.g. `failed for "a"`, `failed for "Hebronn"`). **Confirmed via live testing** in both test runs above. Not a secret leak (no keys involved), but unnecessary exposure of raw input in logs.
-4. **Third-party API availability** — both tools depend entirely on Open-Meteo's uptime. *(Note: a fetch timeout is already implemented — `fetchJson` uses `AbortSignal.timeout(timeoutMs)` with an 8-second default — so hanging requests are bounded. This is a design strength, not a gap.)*
-5. **SSRF surface (low, but present)** — the request domain is currently hardcoded in both tools, so classic SSRF isn't exploitable today. **Confirmed via static code review.** Worth monitoring if the base URL is ever made configurable or input-driven.
+1. **Unbounded fixture fallback in `search_city`** — when the live Open-Meteo call fails, the tool falls back to filtering a local fixture list with no result cap. **Confirmed via live testing**: querying `city: "a"` triggered the fallback and returned an unfiltered list of cities before the fix.
+2. **Weaker input validation on `get_weather_alerts`** — `location` was validated only with `min(1).max(100)` in Zod, without the character-restricting regex used in `search_city`. **Confirmed via live testing**: `location: "Hebronn"` (typo) previously failed the exact-match lookup and silently returned an empty alerts array.
+3. **Raw input logged verbatim** — both tools log the caller-supplied string directly via `console.error` on failure (e.g. `failed for "a"`, `failed for "Hebronn"`). **Confirmed via live testing.** Not a secret leak (no keys involved), but unnecessary exposure of raw input in logs. Not fixed this week (see Mitigations).
+4. **Third-party API availability** — both tools depend entirely on Open-Meteo's uptime. A fetch timeout is already implemented — `fetchJson` uses `AbortSignal.timeout(timeoutMs)` with an 8-second default — so hanging requests are bounded. This is a design strength, not a gap.
+5. **SSRF surface (low, but present)** — the request domain is hardcoded in both tools, so classic SSRF isn't exploitable today. **Confirmed via static code review** and via live testing (malicious-looking URL strings like `https://evil.example` are rejected by input validation before ever reaching a fetch call).
 
 ## Mitigations this week
 
-1. Add an explicit result cap (e.g., max 5) to the fixture fallback path in `search_city`, matching the live-results cap already used on the live path.
-2. Align `get_weather_alerts`'s Zod schema with `search_city`'s character-restricting regex for consistency, and return a clearer "not found" signal instead of a silent empty array.
-3. Avoid logging raw user input directly; log a generic message or a truncated/sanitized version instead.
-4. Keep the existing 8-second `AbortSignal.timeout()` on both `fetch` calls — already in place in `http.ts`, no change needed.
-5. Keep the Open-Meteo domain hardcoded (not configurable via input) — document this explicitly as a deliberate SSRF mitigation.
+1. **Implemented & tested** — Added a result cap (`MAX_FALLBACK_RESULTS = 5`) to the fixture fallback path in `search_city`, matching the live-results cap. The response now includes a `note` stating how many results were truncated (e.g. "Showing 5 of 6 matches"). Verified live: `city: "a"` now returns exactly 5 results with a truncation note, instead of an unbounded list.
+2. **Implemented & tested** — Aligned `get_weather_alerts`'s Zod schema with `search_city`'s character-restricting regex (`/^[\p{L}\p{M}]+(?:[ '\-’][\p{L}\p{M}]+)*$/u`). Verified live: inputs like `"Hebron123"` are now rejected with a clear validation error before reaching the lookup logic.
+3. **Verified via live testing (not yet fixed)** — Re-tested both tools against path-traversal-style strings (`../../etc/passwd`), URL-style strings (`https://evil.example`), and long strings (150+ chars). All six combinations were cleanly rejected by the tightened Zod regex/length checks, with no silent acceptance.
+4. **Not changed this week** — the 8-second `AbortSignal.timeout()` in `http.ts` was already in place and required no fix.
+5. **By design, documented** — the Open-Meteo domain remains hardcoded (not configurable via input) in both tools; this is treated as the de facto allowlist / SSRF mitigation.
 
 ## Out of scope
 
 - **Authentication/authorization of MCP clients**: this is a student project running locally via Claude Desktop; multi-user access control is not implemented and is acceptable for this scope.
 - **Rate limiting on our side**: we rely on Open-Meteo's own rate limiting; adding a client-side rate limiter is not a priority this week given low expected traffic.
 - **Secrets management (vault, key rotation)**: not applicable, since no API keys or secrets are used by this project's current tools.
-- **Full path traversal hardening**: not applicable this week, since no tool constructs file paths from user input; will be revisited if such a tool is added later.
+- **Sanitizing raw input out of error logs**: identified as Risk #3 but not fixed this week; planned as a follow-up (log a generic message instead of the raw string).
+- **Full path traversal hardening for file tools**: not applicable this week, since no tool constructs file paths from user input; will be revisited if such a tool is added later.
