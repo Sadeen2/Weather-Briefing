@@ -4,6 +4,8 @@ build/
 .env
 .env.*
 !.env.example
+*.key
+*.pem
 .DS_Store
 *.log
 .idea/
