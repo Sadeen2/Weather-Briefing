@@ -29,3 +29,4 @@ Week 4 security hardening includes:
 - `get_weather`
 - `get_forecast`
 - `compare_weather`
+- `create_weather_briefing`
