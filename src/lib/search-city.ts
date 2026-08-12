@@ -1,5 +1,8 @@
 import { openMeteoGeocodingResponseSchema } from "../schemas/search-city.js";
+import { citiesFixtureSchema } from "../schemas/weather-data.js";
+
 import { fetchJson } from "./http.js";
+
 import fixtureCities from "../../data/cities.json" with { type: "json" };
 
 const MAX_RESULTS = 5;
@@ -46,14 +49,37 @@ export async function searchCity(city: string) {
       "[search_city] live lookup failed; using fixture fallback.",
     );
 
+    // Validate fixture data before trusting or using it.
+    const fixtureValidation = citiesFixtureSchema.safeParse(fixtureCities);
+
+    if (!fixtureValidation.success) {
+      console.error(
+        "[search_city] fixture validation failed.",
+      );
+
+      return {
+        results: [],
+        source: "fixture" as const,
+        note: "Live API unavailable and local fixture data is invalid.",
+      };
+    }
+
     const normalizedKey = normalizedCity.toLowerCase();
 
-    const allFallbackMatches = fixtureCities.cities.filter((cityEntry) =>
-      cityEntry.name.toLowerCase().includes(normalizedKey),
-    );
+    const allFallbackMatches =
+      fixtureValidation.data.cities.filter((cityEntry) =>
+        cityEntry.name.toLowerCase().includes(normalizedKey),
+      );
 
-    const fallbackResults =
-      allFallbackMatches.slice(0, MAX_RESULTS);
+    const fallbackResults = allFallbackMatches
+      .slice(0, MAX_RESULTS)
+      .map((cityEntry) => ({
+        name: cityEntry.name,
+        latitude: cityEntry.latitude,
+        longitude: cityEntry.longitude,
+        country: cityEntry.country,
+        timezone: "unknown",
+      }));
 
     const truncated =
       allFallbackMatches.length > MAX_RESULTS;
