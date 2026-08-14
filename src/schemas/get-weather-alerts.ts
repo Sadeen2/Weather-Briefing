@@ -7,6 +7,10 @@ export const getWeatherAlertsInputSchema = z.object({
     .string()
     .min(1)
     .max(100)
+    .regex(
+      /^[\p{L}\p{M}]+(?:[ '\-’][\p{L}\p{M}]+)*$/u,
+      "Location must contain letters only",
+    )
     .describe("The city or location name to check for active weather alerts."),
 });
 

@@ -43,10 +43,9 @@ export async function getWeatherAlerts(location: string) {
       : [];
 
     return { alerts, source: "live" as const };
-  } catch (error) {
+  } catch {
     console.error(
-      `[get_weather_alerts] failed for "${location}":`,
-      error instanceof Error ? error.message : error,
+      "[get_weather_alerts] lookup failed; using fixture fallback.",
     );
 
     const fallbackAlerts = fixtureAlerts.alerts

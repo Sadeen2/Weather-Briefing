@@ -1,5 +1,10 @@
 import { McpServer } from "@modelcontextprotocol/server";
 
+import {
+  createJsonTextResponse,
+  createSafeErrorResponse,
+} from "../lib/mcp-response.js";
+import { saveFavoriteCity } from "../lib/favorite-cities.js";
 import { saveFavoriteCityInputSchema } from "../schemas/save-favorite-city.js";
 
 export function registerSaveFavoriteCityTool(
@@ -9,28 +14,23 @@ export function registerSaveFavoriteCityTool(
     "save_favorite_city",
     {
       description:
-        "Saves a city to the user's favorites. This P1 tool is not implemented yet.",
+        "Saves a city to the user's locally stored favorites.",
       inputSchema: saveFavoriteCityInputSchema,
     },
     async ({ city }) => {
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(
-              {
-                status: "not_implemented",
-                tool: "save_favorite_city",
-                city,
-                message:
-                  "This P1 tool is not implemented yet. The city was not saved.",
-              },
-              null,
-              2,
-            ),
-          },
-        ],
-      };
+      try {
+        const result = await saveFavoriteCity(city);
+
+        return createJsonTextResponse(result);
+      } catch (error) {
+        console.error(
+          "[save_favorite_city] Failed to save favorite city:",
+          error,
+        );
+        return createSafeErrorResponse(
+          "Unable to save favorite city. The local favorites store is unavailable.",
+        );
+      }
     },
   );
 }
