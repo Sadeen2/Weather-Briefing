@@ -7,6 +7,7 @@ Tools covered:
 * `search_city`
 * `get_weather_alerts`
 * `get_weather`
+* `create_weather_briefing`
 
 Test cases cover happy-path, invalid-input, empty-data / not-found, and timeout/offline behavior.
 
