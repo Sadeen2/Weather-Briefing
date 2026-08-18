@@ -70,3 +70,56 @@ Hebron and Ramallah currently have different weather conditions. Based on the re
 - Tool calls should use the city names provided by the user.
 - `get_forecast` should include a valid `days` value from 1 to 7.
 - These examples intentionally use only Rawand Bawatneh's assigned tools.
+
+
+
+## Duaa Naji's Tools — search_city & get_weather_alerts
+
+### Conversation A — Basic city lookup
+
+**User prompt:**
+> "Where exactly is Ramallah located?"
+
+**Expected tool calls:**
+1. `search_city` — `{"city": "Ramallah"}`
+
+**Good final answer:**
+> "Ramallah, Palestine is located at approximately 31.90°N, 35.20°E, in the
+> Asia/Hebron timezone."
+
+---
+
+### Conversation B — Weather alerts check
+
+**User prompt:**
+> "Are there any weather warnings for Nablus right now?"
+
+**Expected tool calls:**
+1. `get_weather_alerts` — `{"location": "Nablus"}`
+
+**Good final answer (if an alert is active):**
+> "Yes — there's a Heavy Rain alert in effect for Nablus today. Moderate
+> severity, so it's worth planning around if you're heading out."
+
+**Good final answer (if no alerts):**
+> "No active weather alerts for Nablus right now — conditions look calm."
+
+---
+
+### Conversation C — Combined lookup (city resolution + alerts)
+
+**User prompt:**
+> "I'm not sure of the exact city name, but can you check if there are any
+> storm warnings for Hebron?"
+
+**Expected tool calls:**
+1. `search_city` — `{"city": "Hebron"}` (confirms the location resolves correctly)
+2. `get_weather_alerts` — `{"location": "Hebron"}`
+
+**Good final answer:**
+> "Hebron resolved successfully, and there are currently no storm warnings
+> in effect for the area — it's clear for now."
+
+---
+
+*(This section covers `search_city` and `get_weather_alerts`, owned by Duaa Naji.)*
