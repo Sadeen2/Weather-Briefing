@@ -70,3 +70,84 @@ Hebron and Ramallah currently have different weather conditions. Based on the re
 - Tool calls should use the city names provided by the user.
 - `get_forecast` should include a valid `days` value from 1 to 7.
 - These examples intentionally use only Rawand Bawatneh's assigned tools.
+
+## Sadeen's Tools — Weather Briefing & Favorite Cities
+
+This section demonstrates realistic user interactions with Sadeen's tools, covering
+weather briefing generation and local favorite-city management.
+
+---
+
+### Conversation A — Planning Around the Weather
+
+**User prompt:**
+
+> "I'm planning my next few days in Hebron. Give me a 3-day weather briefing in Celsius."
+
+**Expected tool call:**
+
+1. `create_weather_briefing`
+   - `location`: `"Hebron"`
+   - `days`: `3`
+   - `units`: `"celsius"`
+
+**Good final answer:**
+
+> "Here's your 3-day weather briefing for Hebron in Celsius, with the current conditions and the forecast for the days ahead."
+
+The model should present the useful weather information in a concise,
+readable summary rather than exposing the underlying tool response.
+
+---
+
+### Conversation B — Building a Personal Shortlist
+
+**User prompt:**
+
+> "I'm interested in keeping Hebron as a city I check regularly. Save it to my favorite cities."
+
+**Expected tool call:**
+
+1. `save_favorite_city`
+   - `city`: `"Hebron"`
+
+**Good final answer:**
+
+> "Hebron is now saved to your favorite cities."
+
+If the city is already saved, the model should explain that it is already
+in the favorites instead of presenting the operation as a new save.
+
+---
+
+### Conversation C — Returning to Saved Cities
+
+**User prompt:**
+
+> "Which cities have I saved as favorites?"
+
+**Expected tool call:**
+
+1. `list_favorite_cities`
+
+**Good final answer:**
+
+> "Your saved cities are Hebron, Ramallah, and Nablus."
+
+The model should list the cities returned by the tool clearly and naturally.
+If no cities have been saved yet, it should tell the user that their
+favorite-city list is currently empty.
+
+---
+
+### Tool Usage Notes
+
+- `create_weather_briefing` is used when the user wants a concise,
+  multi-day weather summary rather than raw forecast data.
+- `save_favorite_city` persists a user's selected city in the local
+  favorite-city store.
+- `list_favorite_cities` retrieves the cities currently stored as favorites.
+- The examples use realistic natural-language requests so the model can
+  infer which tool is appropriate from the user's intent.
+- Tool responses should be translated into a useful user-facing answer;
+  raw JSON should not be exposed unless the user specifically asks for it.
