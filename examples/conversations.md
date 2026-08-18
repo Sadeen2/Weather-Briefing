@@ -71,7 +71,7 @@ Hebron and Ramallah currently have different weather conditions. Based on the re
 - `get_forecast` should include a valid `days` value from 1 to 7.
 - These examples intentionally use only Rawand Bawatneh's assigned tools.
 
-## Sadeen's Tools — Weather Briefing & Favorite Cities
+# Sadeen's Tools — Weather Briefing & Favorite Cities
 
 This section demonstrates realistic user interactions with Sadeen's tools, covering
 weather briefing generation and local favorite-city management.
