@@ -1,0 +1,7 @@
+{
+  "alerts": [
+    { "city": "Ramallah", "type": "Thunderstorm", "severity": "moderate", "description": "Thunderstorm expected. Weather code 95." },
+    { "city": "Gaza", "type": "High Wind", "severity": "low", "description": "Strong winds expected near coastal areas." },
+    { "city": "Nablus", "type": "Heavy Rain", "severity": "moderate", "description": "Heavy rain expected. Weather code 65." }
+  ]
+}

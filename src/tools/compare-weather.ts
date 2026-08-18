@@ -1,5 +1,10 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { compareWeatherInputSchema } from "../schemas/compare-weather.js";
+import {
+  createJsonTextResponse,
+  createSafeErrorResponse,
+} from "../lib/mcp-response.js";
+import { compareWeatherData } from "../lib/weather-data.js";
 
 export function registerCompareWeatherTool(server: McpServer): void {
   server.registerTool(
@@ -8,22 +13,16 @@ export function registerCompareWeatherTool(server: McpServer): void {
       description: "Compares current weather conditions between two cities",
       inputSchema: compareWeatherInputSchema,
     },
-    async ({ city1, city2 }) => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              ok: false,
-              stub: true,
-              tool: "compare_weather",
-              message: "not implemented yet",
-            },
-            null,
-            2,
-          ),
-        },
-      ],
-    }),
+    async ({ city1, city2 }) => {
+      try {
+        const result = await compareWeatherData(city1, city2);
+        return createJsonTextResponse(result);
+      } catch (error) {
+        console.error("[compare_weather] Failed to compare weather:", error);
+        return createSafeErrorResponse(
+          "Unable to compare weather for the requested cities.",
+        );
+      }
+    },
   );
 }

@@ -1,29 +1,36 @@
 import { McpServer } from "@modelcontextprotocol/server";
+
+import {
+  createJsonTextResponse,
+  createSafeErrorResponse,
+} from "../lib/mcp-response.js";
+import { listFavoriteCities } from "../lib/favorite-cities.js";
 import { listFavoriteCitiesInputSchema } from "../schemas/list-favorite-cities.js";
 
-export function registerListFavoriteCitiesTool(server: McpServer): void {
+export function registerListFavoriteCitiesTool(
+  server: McpServer,
+): void {
   server.registerTool(
     "list_favorite_cities",
     {
       description:
-        "Returns the list of cities that were previously saved as favorites.",
+        "Lists the user's locally stored favorite cities.",
       inputSchema: listFavoriteCitiesInputSchema,
     },
-    async () => ({
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              ok: false,
-              tool: "list_favorite_cities",
-              status: "not implemented yet",
-            },
-            null,
-            2,
-          ),
-        },
-      ],
-    }),
+    async () => {
+      try {
+        const result = await listFavoriteCities();
+
+        return createJsonTextResponse(result);
+      } catch (error) {
+        console.error(
+          "[list_favorite_cities] Failed to load favorite cities:",
+          error,
+        );
+        return createSafeErrorResponse(
+          "Unable to load favorite cities. The local favorites store is unavailable.",
+        );
+      }
+    },
   );
 }

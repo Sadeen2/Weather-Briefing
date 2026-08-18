@@ -7,5 +7,20 @@ export const getWeatherAlertsInputSchema = z.object({
     .string()
     .min(1)
     .max(100)
+    .regex(
+      /^[\p{L}\p{M}]+(?:[ '\-’][\p{L}\p{M}]+)*$/u,
+      "Location must contain letters only",
+    )
     .describe("The city or location name to check for active weather alerts."),
+});
+
+// Validates the shape of Open-Meteo's forecast response before we trust it
+export const openMeteoForecastResponseSchema = z.object({
+  daily: z
+    .object({
+      time: z.array(z.string()),
+      weather_code: z.array(z.number()),
+      wind_speed_10m_max: z.array(z.number()),
+    })
+    .optional(),
 });

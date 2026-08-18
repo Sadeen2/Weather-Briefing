@@ -1,16 +1,17 @@
 import * as z from "zod/v4";
 
+const CITY_NAME_PATTERN =
+  /^[\p{L}\p{M}]+(?:[ .\-’'][\p{L}\p{M}]+)*$/u;
+
 export const getWeatherInputSchema = z.object({
-  latitude: z
-    .number()
-    .finite()
-    .min(-90)
-    .max(90)
-    .describe("The geographic latitude in degrees."),
-  longitude: z
-    .number()
-    .finite()
-    .min(-180)
-    .max(180)
-    .describe("The geographic longitude in degrees."),
+  city: z
+    .string()
+    .trim()
+    .min(1, "City is required.")
+    .max(100, "City must be 100 characters or fewer.")
+    .regex(
+      CITY_NAME_PATTERN,
+      "City can only include letters, spaces, periods, apostrophes, and hyphens.",
+    )
+    .describe("The name of the city to resolve."),
 });

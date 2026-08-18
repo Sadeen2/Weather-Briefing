@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { getWeatherAlertsInputSchema } from "../schemas/get-weather-alerts.js";
+import { getWeatherAlerts } from "../lib/weather-alerts.js";
 
 export function registerGetWeatherAlertsTool(server: McpServer): void {
   server.registerTool(
@@ -11,12 +12,12 @@ export function registerGetWeatherAlertsTool(server: McpServer): void {
       inputSchema: getWeatherAlertsInputSchema.shape,
     },
     async ({ location }) => {
-      // TODO: implement real alerts lookup (stub for now)
+      const result = await getWeatherAlerts(location);
       return {
         content: [
           {
             type: "text",
-            text: `Stub result: would check weather alerts for "${location}"`,
+            text: JSON.stringify(result, null, 2),
           },
         ],
       };

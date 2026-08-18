@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/server";
 import { searchCityInputSchema } from "../schemas/search-city.js";
+import { searchCity } from "../lib/search-city.js";
 
 export function registerSearchCityTool(server: McpServer) {
   server.registerTool(
@@ -7,18 +8,18 @@ export function registerSearchCityTool(server: McpServer) {
     {
       title: "Search City",
       description: "Resolves a city name to geographic coordinates",
-      inputSchema: searchCityInputSchema,
+      inputSchema: searchCityInputSchema.shape,
     },
     async ({ city }) => {
-      // Week 2: stub only — Week 3 replaces this with real data
+      const result = await searchCity(city);
       return {
         content: [
           {
             type: "text",
-            text: JSON.stringify({ ok: true, stub: true, tool: "search_city" }, null, 2),
+            text: JSON.stringify(result, null, 2),
           },
         ],
       };
-    }
+    },
   );
 }

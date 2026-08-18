@@ -1,0 +1,12 @@
+{
+  "cities": [
+    { "name": "Ramallah", "latitude": 31.9038, "longitude": 35.2034, "country": "Palestine", "timezone": "Asia/Hebron" },
+    { "name": "Hebron", "latitude": 31.5326, "longitude": 35.0998, "country": "Palestine", "timezone": "Asia/Hebron" },
+    { "name": "Nablus", "latitude": 32.2211, "longitude": 35.2544, "country": "Palestine", "timezone": "Asia/Hebron" },
+    { "name": "Gaza", "latitude": 31.5017, "longitude": 34.4668, "country": "Palestine", "timezone": "Asia/Gaza" },
+    { "name": "Jerusalem", "latitude": 31.7683, "longitude": 35.2137, "country": "Palestine", "timezone": "Asia/Hebron" },
+    { "name": "Amman", "latitude": 31.9454, "longitude": 35.9284, "country": "Jordan", "timezone": "Asia/Amman" },
+    { "name": "Cairo", "latitude": 30.0444, "longitude": 31.2357, "country": "Egypt", "timezone": "Africa/Cairo" },
+    { "name": "London", "latitude": 51.5072, "longitude": -0.1276, "country": "United Kingdom", "timezone": "Europe/London" }
+  ]
+}

@@ -8,7 +8,10 @@
     "start": "tsx src/index.ts",
     "dev": "tsx src/index.ts",
     "inspect": "npx @modelcontextprotocol/inspector npx tsx src/index.ts",
-    "check:get-weather-schema": "tsx scripts/check-get-weather-schema.ts"
+    "check:get-weather-schema": "tsx scripts/check-get-weather-schema.ts",
+    "check:weather-data": "tsx scripts/check-weather-data.ts",
+    "check:weather-briefing": "tsx scripts/check-weather-briefing.ts",
+    "check:favorite-cities": "tsx scripts/check-favorite-cities.ts"
   },
   "engines": {
     "node": ">=20"
