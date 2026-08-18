@@ -78,7 +78,7 @@ weather briefing generation and local favorite-city management.
 
 ---
 
-### Conversation A — Planning Around the Weather
+## Conversation A — Planning Around the Weather
 
 **User prompt:**
 
@@ -100,7 +100,7 @@ readable summary rather than exposing the underlying tool response.
 
 ---
 
-### Conversation B — Building a Personal Shortlist
+## Conversation B — Building a Personal Shortlist
 
 **User prompt:**
 
@@ -120,7 +120,7 @@ in the favorites instead of presenting the operation as a new save.
 
 ---
 
-### Conversation C — Returning to Saved Cities
+## Conversation C — Returning to Saved Cities
 
 **User prompt:**
 
@@ -140,7 +140,7 @@ favorite-city list is currently empty.
 
 ---
 
-### Tool Usage Notes
+## Tool Usage Notes
 
 - `create_weather_briefing` is used when the user wants a concise,
   multi-day weather summary rather than raw forecast data.
