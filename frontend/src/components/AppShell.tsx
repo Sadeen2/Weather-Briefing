@@ -9,7 +9,14 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
-const navItems = ["Weather", "Forecast", "Compare", "Briefing", "Favorites"];
+const navItems = [
+  { label: "Weather", href: "#weather" },
+  { label: "Forecast", href: "#forecast" },
+  { label: "Compare", href: "#compare" },
+  { label: "Briefing", href: "#briefing" },
+  { label: "Favorites", href: "#favorites" },
+  { label: "About Us", href: "#about" },
+];
 
 function SkyCloud({ className }: { className: string }) {
   const reduceMotion = useReducedMotion();
@@ -83,8 +90,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
           <div className="hidden items-center gap-8 lg:flex">
             {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-semibold text-cirra-muted transition hover:text-cirra-ink">
-                {item}
+              <a key={item.label} href={item.href} className="text-sm font-semibold text-cirra-muted transition hover:text-cirra-ink">
+                {item.label}
               </a>
             ))}
           </div>
@@ -119,9 +126,18 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Navigation className="h-4 w-4 text-sky-600" />
             Powered by Open-Meteo + MCP
           </div>
-          <div className="hidden items-center gap-2 sm:flex">
-            <Heart className="h-4 w-4 text-rose-400" />
-            Built for NextFlows Academy
+          <div className="hidden items-center gap-2 text-xs font-medium tracking-[0.12em] uppercase text-cirra-muted sm:flex">
+            <Heart className="h-3.5 w-3.5 text-rose-400" />
+            <span>Built for</span>
+            <a
+              href="https://nextflows.ai/academy"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit NextFlows Academy"
+              className="inline-flex items-center gap-1 text-cirra-ink transition hover:text-sky-700"
+            >
+              NextFlows Academy
+            </a>
           </div>
         </div>
       </footer>

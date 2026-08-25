@@ -11,6 +11,7 @@ import { CompareSection } from "./sections/CompareSection";
 import { AlertsSection } from "./sections/AlertsSection";
 import { FavoritesSection } from "./sections/FavoritesSection";
 import { ToolsSection } from "./sections/ToolsSection";
+import { AboutUsPage } from "./pages/AboutUsPage";
 import {
   compareWeather,
   createWeatherBriefing,
@@ -67,6 +68,18 @@ export default function App() {
   const [isComparing, setIsComparing] = useState(false);
   const [isSavingFavorite, setIsSavingFavorite] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string>("Looking at the sky over Hebron...");
+  const [currentView, setCurrentView] = useState<"home" | "about">(
+    () => (window.location.hash === "#about" ? "about" : "home"),
+  );
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentView(window.location.hash === "#about" ? "about" : "home");
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
 
   const searchHint = useMemo(() => {
     if (suggestions.length > 0) {
@@ -212,6 +225,14 @@ export default function App() {
   }
 
   const loadingBriefing = isLoadingCity || isSearching;
+
+  if (currentView === "about") {
+    return (
+      <AppShell>
+        <AboutUsPage />
+      </AppShell>
+    );
+  }
 
   return (
     <AppShell>
