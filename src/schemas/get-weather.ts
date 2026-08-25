@@ -2,7 +2,7 @@ import * as z from "zod/v4";
 
 const CITY_NAME_PATTERN =
   /^[\p{L}\p{M}]+(?:[ .\-’'][\p{L}\p{M}]+)*$/u;
-
+// Tool: get_weather
 export const getWeatherInputSchema = z.object({
   city: z
     .string()
