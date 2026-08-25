@@ -1,5 +1,5 @@
 import * as z from "zod/v4";
-
+// Tool: get_weather
 export const getWeatherInputSchema = z.object({
   latitude: z
     .number()
