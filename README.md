@@ -818,7 +818,7 @@ Responsible for:
 
 # Academy
 
-This project was developed as part of the **NextFlows Academy MCP Cohort**.
+This project was developed as part of the **NextFlows Academy MCP Cohort** (https://nextflows.ai/).
 
 ---
 
